@@ -1,15 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;500&display=swap');
-
-$main-back-liner-color: linear-gradient(180deg, rgb(50, 125, 220) 10%, rgb(15, 50, 230) 100%);
-//$main-back-liner-color: linear-gradient(149deg, rgba(24,187,156,1) 0%, rgba(106,57,175,1) 42%, rgba(187,24,148,1) 72%, rgba(115,53,134,1) 100%);
-$main-color: rgb(52, 126, 220);
-$grey-color: rgba(128, 128, 128, 0.25);
-
-//$main-back-liner-color: linear-gradient(150deg, rgba(63,94,251,1) 0%, rgba(240,70,105,1) 100%);
-//$main-back-radial-color: linear-gradient(180deg, rgba(63,94,255,1) 20%, rgba(240,70,105,1) 100%);
-//$main-color: rgb(52, 126, 220);
-
-body{
-    font-family: 'Montserrat', sans-serif;
-    background-color: $grey-color;
+.add-block {
+    margin-top: 20px;
 }
