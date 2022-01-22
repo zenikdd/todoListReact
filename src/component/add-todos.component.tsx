@@ -7,7 +7,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 
 
 const AddTodos = () => {
-    const [todo, setTodo] = useState(JSON.parse(localStorage.getItem('todo') || '{}'));
+    const [todo, setTodo] = useState(['купить хлеб']);
     const [newTodoName, setNewTodoName] = useState('');
 
     // const [name, setName] = useState('test')
