@@ -1,37 +1,47 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import './add-todos.component.scss';
 import TodoItem from "./todo-item.component";
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import {BrowserRouter, Route} from "react-router-dom";
+import {addTask, deleteTask, loadTodo} from "../common/api/todo.api";
+import {AddTaskDto} from "../common/models/add-task.dto";
 
 
 const AddTodos = () => {
-    const [todo, setTodo] = useState(['купить хлеб']);
+    const [todo, setTodo] = useState<string[]>([]);
     const [newTodoName, setNewTodoName] = useState('');
 
-    // const [name, setName] = useState('test')
+    useEffect(() => {
+        loadTodo()
+            .then(
+                (res: any) => {
+                    setTodo(res.data)
+                });
 
-    // const changeName = (e) => {
-    //     setName(e.target.value)
-    // }
+
+    },[])
 
     const updateTodo = (todo: any[]) => {
         setTodo(todo);
-        localStorage.setItem('todo', JSON.stringify(todo));
     }
 
     const changeNewTodoName = (e: any) => {
         setNewTodoName(e.target.value)
     }
 
-    const handleAddNewTodo = () => {
-        updateTodo([...todo, newTodoName])
+    const handleAddNewTodo = async () => {
+        const addTaskDto: AddTaskDto = {
+            description: newTodoName
+        }
+        await addTask(addTaskDto)
+        // updateTodo([...todo, newTodoName])
         setNewTodoName('');
     }
 
-    const handleDelete = (indexToRemove: any) => {
-        updateTodo(todo.filter((item: any, index: any) => index !== indexToRemove ))
+    const handleDelete = async (id: string) => {
+        await deleteTask(id);
+        updateTodo(todo.filter((item: any) => item._id !== id ))
     }
 
     const handleEdit = (indexToEdit: any, editName: any) => {
@@ -47,17 +57,12 @@ const AddTodos = () => {
     }
 
     return (
-        // <BrowserRouter>
-        //     <Route exact path='/'>
-        //         {/*<LoginPage setToken={setToken}/>*/}
-        //     </Route>
-        // </BrowserRouter>
         <div className='test'>
 
             {
                 todo.map((item: any, index: any) => <TodoItem
-                    item={item}
-                    onDelete={() => handleDelete(index)}
+                    item={item.description}
+                    onDelete={() => handleDelete(item._id)}
                     onEdit={(editName: any) => handleEdit(index, editName)}
                 ></TodoItem>)
             }

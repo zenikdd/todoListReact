@@ -1,25 +1,40 @@
 import React from "react"
 import TextField from "@mui/material/TextField";
 import './register.page.scss';
+import {useForm} from "react-hook-form";
+import {registerUser} from "../common/api/user.api";
 
 
 const RegisterPage = () => {
+    const {register, handleSubmit, watch, formState: {errors}} = useForm();
+
+    const onSubmit = async (data: any) => {
+        const res: any = await registerUser(data);
+        localStorage.setItem('token', res.token)
+    };
+
     return (
         <div className='register-page'>
             <div className='register-page-container'>
                 <div>Login</div>
-                <TextField
-                    id="outlined-basic"
-                    label="name"
-                    variant="outlined"/>
-                <TextField
-                    id="outlined-basic"
-                    label="email"
-                    variant="outlined"/>
-                <TextField
-                    id="outlined-basic"
-                    label="pass"
-                    variant="outlined"/>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        id="outlined-basic"
+                        label="name"
+                        {...register("name", { required: true })}
+                        variant="outlined"/>
+                    <TextField
+                        id="outlined-basic"
+                        label="email"
+                        {...register("email", { required: true })}
+                        variant="outlined"/>
+                    <TextField
+                        id="outlined-basic"
+                        label="pass"
+                        {...register("password", { required: true })}
+                        variant="outlined"/>
+                    <input type="submit" />
+                </form>
             </div>
         </div>
     )
