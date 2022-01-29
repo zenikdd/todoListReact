@@ -1,25 +1,39 @@
 import React, {useState} from "react"
 import './App.scss';
 import {BrowserRouter, Route} from "react-router-dom";
-import AddTodos from "./component/add-todos.component";
+import TodoList from "./component/todo-list.component";
 import LoginPage from "./component/login.page";
 import RegisterPage from "./component/register.page";
+import TodoContent from "./component/todo-content.page";
 
 
 const App = () => {
 
+    const isLogined = localStorage.getItem('token')
+
 
     return (
         <BrowserRouter>
-            <Route exact path='/todos'>
-                <AddTodos/>
-            </Route>
-            <Route exact path='/login'>
-                <LoginPage></LoginPage>
-            </Route>
+            {
+                isLogined &&
+                <>
+                    <Route exact path='/todo/:id'>
+                        <TodoContent/>
+                    </Route>
+                    <Route exact path='/'>
+                        <TodoList/>
+                    </Route>
+                </>
+            }
+
             <Route exact path='/register'>
                 <RegisterPage></RegisterPage>
             </Route>
+
+            <Route exact path='/login'>
+                <LoginPage></LoginPage>
+            </Route>
+
         </BrowserRouter>
     );
 }

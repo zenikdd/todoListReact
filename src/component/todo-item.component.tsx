@@ -3,6 +3,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import './todo-item.component.scss';
 import CheckIcon from '@mui/icons-material/Check';
+import {useHistory} from "react-router-dom";
+import {Link} from "@mui/material";
 
 const TodoItem = ({item, onDelete, onEdit}: any) => {
 
@@ -23,13 +25,12 @@ const TodoItem = ({item, onDelete, onEdit}: any) => {
         onEdit(editedTodoName)
     }
 
-
     return (
         <div className='todo-item'>
             {
                 isEditMode ?
                     <input value={editedTodoName} onChange={changeTodoName}/>
-                    : <div>{item}</div>
+                    : <Link href={`/todo/${item._id}`} >{item.description}</Link>
 
             }
             <div>

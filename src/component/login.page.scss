@@ -1,4 +1,4 @@
-.register-page {
+.login-page {
     display: flex;
     justify-content: center;
 
@@ -11,13 +11,13 @@
         }
     }
 
-    .move-login-page {
+    .create-account {
         color: darkblue;
         margin-top: 10px;
     }
 }
 
-.register-page-container {
+.login-page-container {
     display: flex;
     flex-direction: column;
     justify-content: center;

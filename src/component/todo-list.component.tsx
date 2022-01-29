@@ -1,70 +1,61 @@
 import React, {useEffect, useState} from "react"
-import './add-todos.component.scss';
+import './todo-list.component.scss';
 import TodoItem from "./todo-item.component";
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
-import {BrowserRouter, Route} from "react-router-dom";
 import {addTask, deleteTask, loadTodo} from "../common/api/todo.api";
-import {AddTaskDto} from "../common/models/add-task.dto";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
-const AddTodos = () => {
+const TodoList = () => {
     const [todo, setTodo] = useState<string[]>([]);
     const [newTodoName, setNewTodoName] = useState('');
+    const [isLoadingNewItems, setIsLoadingNewItems] = useState(false);
 
-    useEffect(() => {
+    const loadItems = () => {
+        setIsLoadingNewItems(true);
         loadTodo()
             .then(
                 (res: any) => {
                     setTodo(res.data)
+                    setIsLoadingNewItems(false)
                 });
-
-
-    },[])
-
-    const updateTodo = (todo: any[]) => {
-        setTodo(todo);
     }
+
+    useEffect(() => loadItems(), [])
 
     const changeNewTodoName = (e: any) => {
         setNewTodoName(e.target.value)
     }
 
     const handleAddNewTodo = async () => {
-        const addTaskDto: AddTaskDto = {
-            description: newTodoName
-        }
-        await addTask(addTaskDto)
-        // updateTodo([...todo, newTodoName])
+        await addTask(newTodoName)
+        loadItems()
         setNewTodoName('');
     }
 
     const handleDelete = async (id: string) => {
         await deleteTask(id);
-        updateTodo(todo.filter((item: any) => item._id !== id ))
+        loadItems()
     }
 
-    const handleEdit = (indexToEdit: any, editName: any) => {
-        const editedTodos = todo.map((item: any, index: any) => {
-            if(index === indexToEdit) {
-                return editName
-            }
-
-            return item
-        })
-
-        updateTodo(editedTodos);
+    const handleEdit = async (id: string, editName: any) => {
+        await deleteTask(id);
+        await addTask(editName)
+        await loadItems();
     }
 
     return (
         <div className='test'>
 
             {
-                todo.map((item: any, index: any) => <TodoItem
-                    item={item.description}
-                    onDelete={() => handleDelete(item._id)}
-                    onEdit={(editName: any) => handleEdit(index, editName)}
-                ></TodoItem>)
+                isLoadingNewItems
+                    ? <CircularProgress/>
+                    : todo.map((item: any) => <TodoItem
+                        item={item}
+                        onDelete={() => handleDelete(item._id)}
+                        onEdit={(editName: string) => handleEdit(item._id, editName)}
+                    ></TodoItem>)
             }
             <div className='add-block'>
                 <TextField
@@ -79,15 +70,8 @@ const AddTodos = () => {
                     Add todo
                 </Button>
             </div>
-
-
-            {/*<div>{name}</div>*/}
-            {/*<input value={name} onChange={changeName}/>*/}
-            {/*<div>*/}
-            {/*    test*/}
-            {/*</div>*/}
         </div>
     );
 }
 
-export default AddTodos;
+export default TodoList;
