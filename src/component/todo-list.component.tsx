@@ -5,20 +5,35 @@ import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import {addTask, deleteTask, loadTodo} from "../common/api/todo.api";
 import CircularProgress from '@mui/material/CircularProgress';
+import {useDispatch, useSelector} from 'react-redux';
 
 
 const TodoList = () => {
-    const [todo, setTodo] = useState<string[]>([]);
+    const todo = useSelector((state: any) => state.todoReducer.todo)
+    const isLoadingNewItems = useSelector((state: any) => state.todoReducer.isLoadingNewItems);
+    const dispatch = useDispatch();
+
     const [newTodoName, setNewTodoName] = useState('');
-    const [isLoadingNewItems, setIsLoadingNewItems] = useState(false);
 
     const loadItems = () => {
-        setIsLoadingNewItems(true);
+
+        dispatch({
+            type: 'SET_IS_LOADING_NEW_ITEMS',
+            payload: true
+        })
+
         loadTodo()
             .then(
                 (res: any) => {
-                    setTodo(res.data)
-                    setIsLoadingNewItems(false)
+                    dispatch({
+                        type: 'SET_TODO',
+                        payload: res.data
+                    })
+
+                    dispatch({
+                        type: 'SET_IS_LOADING_NEW_ITEMS',
+                        payload: false
+                    })
                 });
     }
 
