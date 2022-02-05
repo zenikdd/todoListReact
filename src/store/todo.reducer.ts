@@ -1,11 +1,18 @@
+import TodoItem from '../common/models/todo-item';
+import TodoItemDTO from '../common/models/todo-item';
+
+interface reducerState {
+    todo: TodoItemDTO[],
+    isLoadingNewItems: boolean
+}
 
 
-const initialState = {
+const initialState: reducerState = {
     todo: [],
     isLoadingNewItems: false
 }
 
-export default function todoReducer(state = initialState, action: any) {
+export default function todoReducer(state: reducerState = initialState, action: any): reducerState {
     switch (action.type) {
         case 'SET_TODO':
             return {

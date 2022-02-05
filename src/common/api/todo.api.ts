@@ -1,17 +1,19 @@
 import { axios } from './default-axios.api'
 import {AddTaskDto} from "../models/add-task.dto";
+import TodoItemDTO, {LoadItemsResultDTO} from '../models/todo-item';
 
-export const loadTodo = async () => {
+export const loadTodo = async (): Promise<TodoItemDTO[]> => {
     try {
         const token = localStorage.getItem('token')
-        const response = await axios.get('task', {
+        const response = await axios.get<LoadItemsResultDTO>('task', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-        return response.data
+        return response.data.data
     } catch (err: any) {
         console.log(err)
+        return  []
     }
 }
 

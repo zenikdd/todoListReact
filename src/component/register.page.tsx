@@ -2,18 +2,22 @@ import React from "react"
 import TextField from "@mui/material/TextField";
 import './register.page.scss';
 import {useForm} from "react-hook-form";
-import {registerUser} from "../common/api/user.api";
 import {useHistory} from "react-router-dom";
+import {useDispatch} from 'react-redux';
+import {RegisterDto} from '../common/models/register.dto';
 
 
 const RegisterPage = () => {
     const {register, handleSubmit} = useForm();
     const history = useHistory();
 
+    const dispatch = useDispatch();
+
     const onSubmit = async (data: any) => {
-        const res: any = await registerUser(data);
-        localStorage.setItem('token', res.token)
-        history.push('/')
+        dispatch({
+            type: 'REGISTER_USER',
+            payload: data
+        })
     };
 
     const goToLoginPage = () => {

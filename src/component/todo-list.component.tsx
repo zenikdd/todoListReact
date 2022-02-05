@@ -6,10 +6,11 @@ import TextField from '@mui/material/TextField';
 import {addTask, deleteTask, loadTodo} from "../common/api/todo.api";
 import CircularProgress from '@mui/material/CircularProgress';
 import {useDispatch, useSelector} from 'react-redux';
+import TodoItemDTO from '../common/models/todo-item';
 
 
 const TodoList = () => {
-    const todo = useSelector((state: any) => state.todoReducer.todo)
+    const todo: TodoItemDTO[] = useSelector((state: any) => state.todoReducer.todo)
     const isLoadingNewItems = useSelector((state: any) => state.todoReducer.isLoadingNewItems);
     const dispatch = useDispatch();
 
@@ -18,23 +19,8 @@ const TodoList = () => {
     const loadItems = () => {
 
         dispatch({
-            type: 'SET_IS_LOADING_NEW_ITEMS',
-            payload: true
+            type: 'LOAD_ITEMS_REQUEST'
         })
-
-        loadTodo()
-            .then(
-                (res: any) => {
-                    dispatch({
-                        type: 'SET_TODO',
-                        payload: res.data
-                    })
-
-                    dispatch({
-                        type: 'SET_IS_LOADING_NEW_ITEMS',
-                        payload: false
-                    })
-                });
     }
 
     useEffect(() => loadItems(), [])
@@ -44,20 +30,28 @@ const TodoList = () => {
     }
 
     const handleAddNewTodo = async () => {
-        await addTask(newTodoName)
-        loadItems()
+        dispatch({
+            type: 'ADD_TASK_REQUEST',
+            payload: newTodoName
+        })
         setNewTodoName('');
     }
 
     const handleDelete = async (id: string) => {
-        await deleteTask(id);
-        loadItems()
+        dispatch({
+            type: 'DELETE_TASK_REQUEST',
+            payload: id
+        })
     }
 
-    const handleEdit = async (id: string, editName: any) => {
-        await deleteTask(id);
-        await addTask(editName)
-        await loadItems();
+    const handleEdit = async (id: string, editName: string) => {
+        dispatch({
+            type: 'EDIT_TASK',
+            payload: {
+                id,
+                editName
+            }
+        })
     }
 
     return (
