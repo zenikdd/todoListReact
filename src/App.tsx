@@ -5,12 +5,13 @@ import TodoList from "./component/todo-list.component";
 import LoginPage from "./component/login.page";
 import RegisterPage from "./component/register.page";
 import TodoContent from "./component/todo-content.page";
+import {useSelector} from "react-redux";
 
+const isCookieJWTAvailable = () => true;
 
 const App = () => {
 
-  const isLogined = localStorage.getItem('token')
-
+  const isLogined = isCookieJWTAvailable();
 
   return (
     <BrowserRouter>

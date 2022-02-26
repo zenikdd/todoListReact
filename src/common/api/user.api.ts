@@ -1,5 +1,5 @@
 import { axios } from './default-axios.api'
-import {RegisterDto} from '../models/register.dto';
+import {RegisterUserDto} from '../models/register-user.dto';
 
 export const loginUser = async (data: any) => {
     try {
@@ -10,7 +10,7 @@ export const loginUser = async (data: any) => {
     }
 }
 
-export const registerUser = async (data: RegisterDto) => {
+export const registerUser = async (data: RegisterUserDto) => {
     try {
         const updateTopic = await axios.post('user/register', data)
         return updateTopic.data

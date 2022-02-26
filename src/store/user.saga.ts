@@ -1,12 +1,11 @@
 import {call, put, takeEvery} from 'redux-saga/effects'
-import {loadTodo, addTask, deleteTask} from '../common/api/todo.api';
 import {registerUser} from '../common/api/user.api';
-import {RegisterResponseDto} from '../common/models/register-response.dto';
 
 function* loadItemsRequest(action: any) {
     try {
-        const res: RegisterResponseDto = yield call(registerUser, action.payload);
-        localStorage.setItem('token', res.token)
+        yield call(registerUser, action.payload);
+        yield put({type: 'SET_USER_AUTHENTICATED'})
+        window.location.href = '/';
     } catch (e: any) {
         yield put({type: 'GET_USERS_FAILED', message: e.message})
     }

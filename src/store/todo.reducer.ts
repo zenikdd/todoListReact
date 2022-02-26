@@ -1,8 +1,7 @@
-import TodoItem from '../common/models/todo-item';
-import TodoItemDTO from '../common/models/todo-item';
+import {TodoDto} from "../common/models/todo.dto";
 
 interface reducerState {
-    todo: TodoItemDTO[],
+    todo: TodoDto[],
     isLoadingNewItems: boolean
 }
 

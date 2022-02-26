@@ -3,10 +3,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import './todo-item.component.scss';
 import CheckIcon from '@mui/icons-material/Check';
-import {useHistory} from "react-router-dom";
 import {Link} from "@mui/material";
+import {TodoDto} from "../common/models/todo.dto";
 
-const TodoItem = ({item, onDelete, onEdit}: any) => {
+const TodoItem = ({item, onDelete, onEdit}: { item: TodoDto, onDelete: () => void, onEdit: (editName: string) => void }) => {
 
     const [isEditMode, setIsEditMode] = useState(false);
     const [editedTodoName, setEditedTodoName] = useState('');
@@ -30,7 +30,7 @@ const TodoItem = ({item, onDelete, onEdit}: any) => {
             {
                 isEditMode ?
                     <input value={editedTodoName} onChange={changeTodoName}/>
-                    : <Link href={`/todo/${item._id}`} >{item.description}</Link>
+                    : <Link href={`/todo/${item.id}`} >{item.name}</Link>
 
             }
             <div>

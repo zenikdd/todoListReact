@@ -3,14 +3,13 @@ import './todo-list.component.scss';
 import TodoItem from "./todo-item.component";
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
-import {addTask, deleteTask, loadTodo} from "../common/api/todo.api";
 import CircularProgress from '@mui/material/CircularProgress';
 import {useDispatch, useSelector} from 'react-redux';
-import TodoItemDTO from '../common/models/todo-item';
+import {TodoDto} from "../common/models/todo.dto";
 
 
 const TodoList = () => {
-    const todo: TodoItemDTO[] = useSelector((state: any) => state.todoReducer.todo)
+    const todo: TodoDto[] = useSelector((state: any) => state.todoReducer.todo)
     const isLoadingNewItems = useSelector((state: any) => state.todoReducer.isLoadingNewItems);
     const dispatch = useDispatch();
 
@@ -37,14 +36,14 @@ const TodoList = () => {
         setNewTodoName('');
     }
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (id: number) => {
         dispatch({
             type: 'DELETE_TASK_REQUEST',
             payload: id
         })
     }
 
-    const handleEdit = async (id: string, editName: string) => {
+    const handleEdit = async (id: number, editName: string) => {
         dispatch({
             type: 'EDIT_TASK',
             payload: {
@@ -60,10 +59,10 @@ const TodoList = () => {
             {
                 isLoadingNewItems
                     ? <CircularProgress/>
-                    : todo.map((item: any) => <TodoItem
+                    : todo.map((item: TodoDto) => <TodoItem
                         item={item}
-                        onDelete={() => handleDelete(item._id)}
-                        onEdit={(editName: string) => handleEdit(item._id, editName)}
+                        onDelete={() => handleDelete(item.id)}
+                        onEdit={(editName: string) => handleEdit(item.id, editName)}
                     ></TodoItem>)
             }
             <div className='add-block'>

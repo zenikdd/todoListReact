@@ -4,7 +4,6 @@ import './register.page.scss';
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
-import {RegisterDto} from '../common/models/register.dto';
 
 
 const RegisterPage = () => {
@@ -33,20 +32,14 @@ const RegisterPage = () => {
                     <TextField
                         id="outlined-basic"
                         className='input'
-                        label="name"
-                        {...register("name", { required: true })}
-                        variant="outlined"/>
-                    <TextField
-                        id="outlined-basic"
-                        className='input'
-                        label="email"
-                        {...register("email", { required: true })}
+                        label="login"
+                        {...register("login", { required: true })}
                         variant="outlined"/>
                     <TextField
                         id="outlined-basic"
                         className='input'
                         label="pass"
-                        {...register("password", { required: true })}
+                        {...register("pass", { required: true })}
                         variant="outlined"/>
                     <input type="submit" />
                 </form>

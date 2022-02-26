@@ -1,8 +1,5 @@
-import React, {useEffect, useState} from "react"
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import React, {useEffect} from "react"
 import './todo-item.component.scss';
-import CheckIcon from '@mui/icons-material/Check';
 import {loadSingleTodo} from "../common/api/todo.api";
 import {useParams} from "react-router-dom";
 

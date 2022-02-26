@@ -1,16 +1,12 @@
 import { axios } from './default-axios.api'
 import {AddTaskDto} from "../models/add-task.dto";
-import TodoItemDTO, {LoadItemsResultDTO} from '../models/todo-item';
+import {TodoDto} from "../models/todo.dto";
+import {EditTodoDto} from "../models/edit-todo.dto";
 
-export const loadTodo = async (): Promise<TodoItemDTO[]> => {
+export const loadTodo = async (): Promise<TodoDto[]> => {
     try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get<LoadItemsResultDTO>('task', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        return response.data.data
+        const response = await axios.get<TodoDto[]>('todo/getAll')
+        return response.data
     } catch (err: any) {
         console.log(err)
         return  []
@@ -19,15 +15,10 @@ export const loadTodo = async (): Promise<TodoItemDTO[]> => {
 
 export const addTask = async (newTodoName: string) => {
     try {
-        const token = localStorage.getItem('token')
         const addTaskDto: AddTaskDto = {
-            description: newTodoName
+            name: newTodoName
         }
-        const updateTopic = await axios.post('task', addTaskDto,{
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        const updateTopic = await axios.post('todo/add', addTaskDto)
         return updateTopic.data
     } catch (err: any) {
         console.log(err)
@@ -36,12 +27,19 @@ export const addTask = async (newTodoName: string) => {
 
 export const deleteTask = async (taskId: string) => {
     try {
-        const token = localStorage.getItem('token')
-        const updateTopic = await axios.delete(`task/${taskId}`,{
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        const updateTopic = await axios.delete(`todo/${taskId}`)
+        return updateTopic.data
+    } catch (err: any) {
+        console.log(err)
+    }
+}
+
+export const editTask = async (id: number, name: string) => {
+    try {
+        const editTodoDto: EditTodoDto = {
+            id, name
+        }
+        const updateTopic = await axios.patch(`todo/edit`,editTodoDto )
         return updateTopic.data
     } catch (err: any) {
         console.log(err)

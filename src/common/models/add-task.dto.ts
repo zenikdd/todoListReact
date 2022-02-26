@@ -1,3 +1,3 @@
 export interface AddTaskDto {
-    description: string
+    name: string
 }
