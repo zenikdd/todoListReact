@@ -7,7 +7,7 @@ import RegisterPage from "./component/register.page";
 import TodoContent from "./component/todo-content.page";
 import {useSelector} from "react-redux";
 
-const isCookieJWTAvailable = () => true;
+const isCookieJWTAvailable = () => !!localStorage.getItem('token');
 
 const App = () => {
 

@@ -2,10 +2,11 @@ import { axios } from './default-axios.api'
 import {AddTaskDto} from "../models/add-task.dto";
 import {TodoDto} from "../models/todo.dto";
 import {EditTodoDto} from "../models/edit-todo.dto";
+import {prepareAuthHeader} from "./axios.service";
 
 export const loadTodo = async (): Promise<TodoDto[]> => {
     try {
-        const response = await axios.get<TodoDto[]>('todo/getAll')
+        const response = await axios.get<TodoDto[]>('todo/getAll' , prepareAuthHeader())
         return response.data
     } catch (err: any) {
         console.log(err)
@@ -18,7 +19,7 @@ export const addTask = async (newTodoName: string) => {
         const addTaskDto: AddTaskDto = {
             name: newTodoName
         }
-        const updateTopic = await axios.post('todo/add', addTaskDto)
+        const updateTopic = await axios.post('todo/add', addTaskDto, prepareAuthHeader())
         return updateTopic.data
     } catch (err: any) {
         console.log(err)
@@ -27,7 +28,7 @@ export const addTask = async (newTodoName: string) => {
 
 export const deleteTask = async (taskId: string) => {
     try {
-        const updateTopic = await axios.delete(`todo/${taskId}`)
+        const updateTopic = await axios.delete(`todo/${taskId}`, prepareAuthHeader())
         return updateTopic.data
     } catch (err: any) {
         console.log(err)
@@ -39,7 +40,7 @@ export const editTask = async (id: number, name: string) => {
         const editTodoDto: EditTodoDto = {
             id, name
         }
-        const updateTopic = await axios.patch(`todo/edit`,editTodoDto )
+        const updateTopic = await axios.patch(`todo/edit`,editTodoDto, prepareAuthHeader() )
         return updateTopic.data
     } catch (err: any) {
         console.log(err)
@@ -48,12 +49,7 @@ export const editTask = async (id: number, name: string) => {
 
 export const loadSingleTodo = async (todoId: string) => {
     try {
-        const token = localStorage.getItem('token')
-        const updateTopic = await axios.delete(`task/${todoId}`,{
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        const updateTopic = await axios.delete(`task/${todoId}`, prepareAuthHeader())
         return updateTopic.data
     } catch (err: any) {
         console.log(err)

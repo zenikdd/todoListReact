@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useDispatch, useSelector} from 'react-redux';
 import {TodoDto} from "../common/models/todo.dto";
+import {HeaderComponent} from "./header.component";
 
 
 const TodoList = () => {
@@ -54,29 +55,32 @@ const TodoList = () => {
     }
 
     return (
-        <div className='test'>
+        <div className='todo-list'>
+            <HeaderComponent/>
+            <div className="todo-list-container">
 
-            {
-                isLoadingNewItems
-                    ? <CircularProgress/>
-                    : todo.map((item: TodoDto) => <TodoItem
-                        item={item}
-                        onDelete={() => handleDelete(item.id)}
-                        onEdit={(editName: string) => handleEdit(item.id, editName)}
-                    ></TodoItem>)
-            }
-            <div className='add-block'>
-                <TextField
-                    value={newTodoName}
-                    onChange={changeNewTodoName}
-                    id="outlined-basic"
-                    label="Outlined"
-                    variant="outlined"/>
-                <Button
-                    onClick={handleAddNewTodo}
-                    variant="contained">
-                    Add todo
-                </Button>
+                {
+                    isLoadingNewItems
+                        ? <CircularProgress/>
+                        : todo.map((item: TodoDto) => <TodoItem
+                            item={item}
+                            onDelete={() => handleDelete(item.id)}
+                            onEdit={(editName: string) => handleEdit(item.id, editName)}
+                        ></TodoItem>)
+                }
+                <div className='add-block'>
+                    <TextField
+                        value={newTodoName}
+                        onChange={changeNewTodoName}
+                        id="outlined-basic"
+                        label="Outlined"
+                        variant="outlined"/>
+                    <Button
+                        onClick={handleAddNewTodo}
+                        variant="contained">
+                        Add todo
+                    </Button>
+                </div>
             </div>
         </div>
     );

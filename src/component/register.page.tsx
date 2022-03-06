@@ -27,7 +27,7 @@ const RegisterPage = () => {
     return (
         <div className='register-page'>
             <div className='register-page-container'>
-                <div>Login</div>
+                <div>Register</div>
                 <form className='login-form' onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         id="outlined-basic"

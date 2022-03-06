@@ -1,3 +1,13 @@
-.add-block {
-    margin-top: 20px;
+.todo-list {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .todo-list-container {
+        width: 40%;
+        padding-top: 30px;
+
+        .add-block {
+            margin-top: 20px;
+        }
+    }
 }

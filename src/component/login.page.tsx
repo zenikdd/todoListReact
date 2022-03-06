@@ -4,15 +4,17 @@ import './login.page.scss';
 import {useForm} from "react-hook-form";
 import {loginUser} from "../common/api/user.api";
 import {useHistory} from "react-router-dom";
+import {LoginDto} from "../common/models/login.dto";
+import {LoginResponseDto} from "../common/models/login.response.dto";
 
 const LoginPage = () => {
-    const {register, handleSubmit, watch, formState: {errors}} = useForm();
+    const {register, handleSubmit, watch, formState: {errors}} = useForm<LoginDto>();
     const history = useHistory();
 
-    const onSubmit = async (data: any) => {
-        const res: any = await loginUser(data);
+    const onSubmit = async (data: LoginDto) => {
+        const res = await loginUser(data) as LoginResponseDto;
         localStorage.setItem('token', res.token)
-        history.push('/')
+        window.location.href = '/';
     }
 
     const goToRegisterPage = () => {
@@ -27,13 +29,13 @@ const LoginPage = () => {
                 <form className='login-form' onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         id="outlined-basic"
-                        label="email"
+                        label="username"
                         className='input'
-                        {...register("email", { required: true })}
+                        {...register("username", { required: true })}
                         variant="outlined"/>
                     <TextField
                         id="outlined-basic"
-                        label="pass"
+                        label="password"
                         className='input'
                         {...register("password", { required: true })}
                         variant="outlined"/>
