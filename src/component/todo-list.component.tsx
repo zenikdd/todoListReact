@@ -12,6 +12,7 @@ import {HeaderComponent} from "./header.component";
 const TodoList = () => {
     const todo: TodoDto[] = useSelector((state: any) => state.todoReducer.todo)
     const isLoadingNewItems = useSelector((state: any) => state.todoReducer.isLoadingNewItems);
+    const search = useSelector((state: any) => state.todoReducer.searchText);
     const dispatch = useDispatch();
 
     const [newTodoName, setNewTodoName] = useState('');
@@ -29,12 +30,25 @@ const TodoList = () => {
         setNewTodoName(e.target.value)
     }
 
+    const changeSearch = (e: any) => {
+        dispatch({
+            type: 'SET_SEARCH_TEXT',
+            payload: e.target.value
+        })
+    }
+
     const handleAddNewTodo = async () => {
         dispatch({
             type: 'ADD_TASK_REQUEST',
             payload: newTodoName
         })
         setNewTodoName('');
+    }
+
+    const onSearch = async () => {
+        dispatch({
+            type: 'LOAD_ITEMS_REQUEST'
+        })
     }
 
     const handleDelete = async (id: number) => {
@@ -57,6 +71,19 @@ const TodoList = () => {
     return (
         <div className='todo-list'>
             <HeaderComponent/>
+            <div>
+                <TextField
+                    value={search}
+                    onChange={changeSearch}
+                    id="outlined-basic"
+                    label="Search"
+                    variant="outlined"/>
+                <Button
+                    onClick={onSearch}
+                    variant="contained">
+                    Search
+                </Button>
+            </div>
             <div className="todo-list-container">
 
                 {

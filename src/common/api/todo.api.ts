@@ -6,7 +6,7 @@ import {prepareAuthHeader} from "./axios.service";
 
 export const loadTodo = async (): Promise<TodoDto[]> => {
     try {
-        const response = await axios.get<TodoDto[]>('todo/getAll' , prepareAuthHeader())
+        const response = await axios.get<TodoDto[]>('todo/get' , prepareAuthHeader())
         return response.data
     } catch (err: any) {
         console.log(err)
@@ -41,6 +41,15 @@ export const editTask = async (id: number, name: string) => {
             id, name
         }
         const updateTopic = await axios.patch(`todo/edit`,editTodoDto, prepareAuthHeader() )
+        return updateTopic.data
+    } catch (err: any) {
+        console.log(err)
+    }
+}
+
+export const searchTodo = async (searchText: string) => {
+    try {
+        const updateTopic = await axios.get(`todo/search/${searchText}`, prepareAuthHeader() )
         return updateTopic.data
     } catch (err: any) {
         console.log(err)

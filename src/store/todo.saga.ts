@@ -1,11 +1,14 @@
 import {call, put, takeEvery} from 'redux-saga/effects'
-import {loadTodo, addTask, deleteTask, editTask} from '../common/api/todo.api';
+import {addTask, deleteTask, editTask, searchTodo} from '../common/api/todo.api';
 import {TodoDto} from "../common/models/todo.dto";
+import {select} from 'redux-saga/effects'
+
 
 function* loadItemsRequest() {
     try {
+        const searchText: string = yield select((state: any) => state.todoReducer.searchText);
         yield put({type: 'SET_IS_LOADING_NEW_ITEMS', payload: true})
-        const todos: TodoDto[] = yield call(loadTodo);
+        const todos: TodoDto[] = yield call(searchTodo, searchText);
         yield put({type: 'SET_IS_LOADING_NEW_ITEMS', payload: false})
         yield put({type: 'SET_TODO', payload: todos})
     } catch (e: any) {

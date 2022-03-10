@@ -3,12 +3,14 @@ import {TodoDto} from "../common/models/todo.dto";
 interface reducerState {
     todo: TodoDto[],
     isLoadingNewItems: boolean
+    searchText: string
 }
 
 
 const initialState: reducerState = {
     todo: [],
-    isLoadingNewItems: false
+    isLoadingNewItems: false,
+    searchText: ''
 }
 
 export default function todoReducer(state: reducerState = initialState, action: any): reducerState {
@@ -17,6 +19,11 @@ export default function todoReducer(state: reducerState = initialState, action: 
             return {
                 ...state,
                 todo: action.payload,
+            }
+        case 'SET_SEARCH_TEXT':
+            return {
+                ...state,
+                searchText: action.payload,
             }
         case 'SET_IS_LOADING_NEW_ITEMS':
             return {
