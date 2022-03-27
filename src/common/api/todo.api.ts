@@ -47,9 +47,18 @@ export const editTask = async (id: number, name: string) => {
     }
 }
 
-export const searchTodo = async (searchText: string) => {
+export const searchTodo = async (searchText: string, currentPage: number) => {
     try {
-        const updateTopic = await axios.get(`todo/search/${searchText}`, prepareAuthHeader() )
+        const updateTopic = await axios.get(`todo/search?searchText=${searchText}&page=${currentPage}&itemsPerPage=2`, prepareAuthHeader() )
+        return updateTopic.data
+    } catch (err: any) {
+        console.log(err)
+    }
+}
+
+export const getAmountPagesByCriteria = async (searchText: string, currentPage: number) => {
+    try {
+        const updateTopic = await axios.get(`todo/getAmountPagesByCriteria?searchText=${searchText}&page=${currentPage}&itemsPerPage=2`, prepareAuthHeader() )
         return updateTopic.data
     } catch (err: any) {
         console.log(err)
