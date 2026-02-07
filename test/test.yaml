@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: redis
+    targetRevision: 24.1.3
+    helm:
+      values: |
+        architecture: standalone
+        auth:
+          enabled: false
+
+        master:
+          service:
+            type: LoadBalancer
+            port: 6379
+            externalTrafficPolicy: Cluster
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: redis
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
